@@ -1,69 +1,72 @@
-# React + TypeScript + Vite
+# Yashwant Poyrekar — Fullstack Developer Portfolio 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to my personal portfolio website! I'm **Yashwant Poyrekar**, a passionate fullstack developer with a curiosity-driven approach to building web apps and experimenting with AI technologies. This portfolio is a glimpse into my coding journey, creative projects, and technical skillset.
 
-Currently, two official plugins are available:
+## 👋 About Me
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+I'm someone who loves turning ideas into real, working solutions. From building clean user interfaces to exploring back-end technologies and AI integrations, I'm always learning, building, and improving.
 
-## Expanding the ESLint configuration
+This site is more than a resume — it’s a live showcase of what I do, how I think, and the kind of work I love.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠️ Skills
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### Programming Languages
+- **JavaScript** (Intermediate)
+- **TypeScript** (Beginner)
+- **Python** (Beginner)
+- **Java** (Beginner)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Frontend
+- **React.js** (Intermediate)
+- **Redux** (Intermediate)
+- **Tailwind CSS**, **Bootstrap**, **MUI** (Beginner)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Backend
+- **Node.js**, **Express.js** (Intermediate)
+- **FastAPI**, **Socket.io** (Beginner–Intermediate)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Databases
+- **MongoDB** (Intermediate)
+- **MySQL**, **Firebase**, **Supabase**, **Redis** (Beginner)
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Tools & Platforms
+- **Git**, **GitHub**, **Docker**, **Render**, **Linux Shell** (Beginner–Intermediate)
+
+---
+
+## 💼 Projects
+
+### ✅ [Todo List](#)
+A minimalist and intuitive task management app that helps users add, delete, and track daily tasks to stay productive and organized.
+
+### 🎮 [Tic Tac Toe](#)
+Classic multiplayer/AI-powered game with Minimax algorithm for a smart single-player experience. Supports both online and offline play.
+
+### 💬 [Gossip App - AI Chat Platform](#)
+An AI-powered real-time chat app featuring:
+- Real-time translation 🌐  
+- Text summarization ✂️  
+- Image description 🖼️  
+
+Enhancing human communication using artificial intelligence.
+
+---
+
+## 📩 Contact
+
+Want to collaborate or chat? Feel free to get in touch!
+
+- 📧 Email: `yashwantpoyrekar@gmail.com`
+- 📬 Portfolio Contact Form
+
+---
+
+## 📄 Download CV
+
+You can download my resume directly from the portfolio site and learn more about my experience and journey.
+
+---
+
+Thanks for stopping by! If you like what you see, let’s connect or collaborate on something cool. 😄
