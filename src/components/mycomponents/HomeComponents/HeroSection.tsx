@@ -67,10 +67,10 @@ const HeroSection: React.FC = () => {
   return (
     <div ref={ref} className="grid grid-cols-1 gap-2 xs:grid-cols-2 py-10 ">
       <div className="text-2xl p-5 md:p-10 flex justify-center flex-col  ">
-        <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+        <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
           Hello, I am Yashwant.
         </h2>
-        <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-blue-300 dark:text-blue-400">
+        <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-blue-300 dark:text-blue-400">
           {string}
         </h2>
         <div className="flex space-x-2">
