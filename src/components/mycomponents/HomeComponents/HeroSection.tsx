@@ -38,6 +38,12 @@ const socialUrls: socialUrl[] = [
     iconUrl:
       "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/facebook/facebook-original.svg",
   },
+  {
+    name: "Twitter",
+    url: "https://x.com/Yash_chieftain",
+    iconUrl:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/twitter/twitter-original.svg",
+  },
 ];
 
 const HeroSection: React.FC = () => {
@@ -80,11 +86,11 @@ const HeroSection: React.FC = () => {
                   <img
                     src={socialUrl.iconUrl}
                     style={{
-                      filter: ["GitHub"].includes(socialUrl.name)
+                      filter: ["GitHub", "Twitter"].includes(socialUrl.name)
                         ? "invert(1)"
                         : "none",
                     }}
-                    className="size-7  rounded-full"
+                    className="size-7 p-1"
                   />
                 </div>
               </TooltipTrigger>
