@@ -5,6 +5,7 @@ import ProjectsSection from "@/components/mycomponents/HomeComponents/ProjectsSe
 import ContactMeSection from "@/components/mycomponents/HomeComponents/ContectMeForm";
 import AboutSection from "@/components/mycomponents/HomeComponents/AboutSection";
 import ExperienceSection from "@/components/mycomponents/HomeComponents/ExperienceSection";
+import EducationSection from "@/components/mycomponents/HomeComponents/EducationSection";
 
 const Home: React.FC = () => {
   return (
@@ -14,6 +15,8 @@ const Home: React.FC = () => {
       <AboutSection />
       <div id="experience" className="h-10.25" />
       <ExperienceSection />
+      <div id="education" className="h-10.25" />
+      <EducationSection />
       <div id="skills" className="h-5"></div>
       <SkillsSection />
       <div id="projects" className="h-10.25"></div>

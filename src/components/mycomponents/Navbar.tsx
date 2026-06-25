@@ -20,6 +20,8 @@ const Navbar: React.FC = () => {
     { label: "Home", to: "/#hero" },
     { label: "About", to: "/#about" },
     { label: "Experience", to: "/#experience" },
+    { label: "Education", to: "/#education" },
+
     { label: "Skills", to: "/#skills" },
     { label: "Projects", to: "/#projects" },
     { label: "Contact Me", to: "/#contact" },
