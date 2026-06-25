@@ -60,7 +60,7 @@ const HeroSection: React.FC = () => {
     showString
       .split("")
       .forEach((char, index) =>
-        setTimeout(() => setString((prev) => prev + char), 100 * index)
+        setTimeout(() => setString((prev) => prev + char), 100 * index),
       );
   }, []);
 
@@ -81,7 +81,7 @@ const HeroSection: React.FC = () => {
                   onClick={() =>
                     window.open(socialUrl.url, "_blank", "noopener, noreferrer")
                   }
-                  className="border-muted border-1 rounded-full p-2 hover:bg-accent hover:ring hover:ring-accent/30"
+                  className="border-muted border rounded-full p-2 hover:bg-accent hover:ring hover:ring-accent/30"
                 >
                   <img
                     src={socialUrl.iconUrl}

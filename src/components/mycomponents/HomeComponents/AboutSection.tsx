@@ -15,7 +15,7 @@ const AboutSection = () => {
         <div className="my-3 xs:my-10 mx-4 flex flex-col items-center justify-center space-y-4">
           <img
             src={cv}
-            className="text-white w-[510px] h-[210px] opacity-80 object-contain "
+            className="text-white w-127.5 h-52.5 opacity-80 object-contain "
           />
           <Button
             onClick={() => window.open(CVURL, "_blank", "noopener, noreferrer")}

@@ -81,7 +81,7 @@ const Navbar: React.FC = () => {
       {/* Mobile Navigation */}
       <AnimatePresence>
         {mobileOpen && (
-          <div className=" backdrop-blur-2xl bg-black/80 absolute z-50 top-[41px] left-0 w-[96dvw] h-[99dvh]">
+          <div className=" backdrop-blur-2xl bg-black/80 absolute z-50 top-10.25 left-0 w-[96dvw] h-[99dvh]">
             <div className=" md:hidden mt-2 space-y-2 px-2 pb-4">
               {navItems.map((item, index) => (
                 <motion.div

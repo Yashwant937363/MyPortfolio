@@ -108,6 +108,41 @@ const IconUrls = {
     iconUrl:
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg",
   },
+  go: {
+    name: "Go",
+    iconUrl:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg",
+  },
+
+  postgresql: {
+    name: "PostgreSQL",
+    iconUrl:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
+  },
+
+  docker: {
+    name: "Docker",
+    iconUrl:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
+  },
+
+  git: {
+    name: "Git",
+    iconUrl:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+  },
+
+  github: {
+    name: "GitHub",
+    iconUrl:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
+  },
+
+  linux: {
+    name: "Linux",
+    iconUrl:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg",
+  },
 };
 
 const projectData: ProjectData[] = [
@@ -116,10 +151,10 @@ const projectData: ProjectData[] = [
     description:
       "A minimalist and intuitive web application to efficiently manage daily tasks. Users can add, track, and delete todos with ease, helping improve productivity and task organization.",
     images: [
-      "https://eomzucqgkembxoolpnhh.supabase.co/storage/v1/object/public/project-images/projectImages/todo/1.png",
-      "https://eomzucqgkembxoolpnhh.supabase.co/storage/v1/object/public/project-images/projectImages/todo/2.png",
-      "https://eomzucqgkembxoolpnhh.supabase.co/storage/v1/object/public/project-images/projectImages/todo/3.png",
-      "https://eomzucqgkembxoolpnhh.supabase.co/storage/v1/object/public/project-images/projectImages/todo/4.png",
+      "https://res.cloudinary.com/dppvlsjq1/image/upload/v1782397397/1_m5khrh.png",
+      "https://res.cloudinary.com/dppvlsjq1/image/upload/v1782397401/2_pldx5e.png",
+      "https://res.cloudinary.com/dppvlsjq1/image/upload/v1782397395/3_xiiuqf.png",
+      "https://res.cloudinary.com/dppvlsjq1/image/upload/v1782397396/4_hl9yg4.png",
     ],
     techstack: [
       IconUrls.reactjs,
@@ -146,10 +181,10 @@ const projectData: ProjectData[] = [
     description:
       "A classic Tic Tac Toe game featuring multiplayer (online/offline) and AI single-player modes. Utilizes the Minimax algorithm to deliver a challenging experience by making optimal moves, simulating real competitive play.",
     images: [
-      "https://eomzucqgkembxoolpnhh.supabase.co/storage/v1/object/public/project-images/projectImages/tictactoe/1.png",
-      "https://eomzucqgkembxoolpnhh.supabase.co/storage/v1/object/public/project-images/projectImages/tictactoe/2.png",
-      "https://eomzucqgkembxoolpnhh.supabase.co/storage/v1/object/public/project-images/projectImages/tictactoe/3.png",
-      "https://eomzucqgkembxoolpnhh.supabase.co/storage/v1/object/public/project-images/projectImages/tictactoe/4.png",
+      "https://res.cloudinary.com/dppvlsjq1/image/upload/v1782397402/1_eqzpnq.png",
+      "https://res.cloudinary.com/dppvlsjq1/image/upload/v1782397400/2_f3lpjs.png",
+      "https://res.cloudinary.com/dppvlsjq1/image/upload/v1782397400/3_fxagim.png",
+      "https://res.cloudinary.com/dppvlsjq1/image/upload/v1782397401/4_dgstqz.png",
     ],
     techstack: [
       IconUrls.reactjs,
@@ -175,9 +210,9 @@ const projectData: ProjectData[] = [
     description:
       "An intelligent chat platform integrating real-time translation, text summarization, and image description features. Enhances user communication by breaking language barriers and providing contextual insights, all powered by AI.",
     images: [
-      "https://eomzucqgkembxoolpnhh.supabase.co/storage/v1/object/public/project-images/projectImages/gossip/1.png",
-      "https://eomzucqgkembxoolpnhh.supabase.co/storage/v1/object/public/project-images/projectImages/gossip/2.png",
-      "https://eomzucqgkembxoolpnhh.supabase.co/storage/v1/object/public/project-images/projectImages/gossip/3.png",
+      "https://res.cloudinary.com/dppvlsjq1/image/upload/v1782397396/1_e2lyti.png",
+      "https://res.cloudinary.com/dppvlsjq1/image/upload/v1782397395/2_k0nrna.png",
+      "https://res.cloudinary.com/dppvlsjq1/image/upload/v1782397396/3_ub23ab.png",
     ],
     techstack: [
       IconUrls.reactjs,
@@ -200,6 +235,33 @@ const projectData: ProjectData[] = [
       {
         title: "AI Backend",
         url: "https://github.com/Yashwant937363/Gossip_AI_Backend",
+      },
+    ],
+  },
+  {
+    name: "QueueCast - Collaborative Music Listening Platform",
+    description:
+      "A real-time collaborative music platform where users can create or join rooms, queue songs from YouTube, vote on tracks, and listen together in sync. Features WebSocket-powered live updates, Redis Pub/Sub for event broadcasting, Google OAuth authentication, anonymous room joining, synchronized playback between host and listeners, and a dynamic song queue system.",
+    images: [
+      "https://res.cloudinary.com/dppvlsjq1/image/upload/v1782399614/1_mlxjni.png",
+      "https://res.cloudinary.com/dppvlsjq1/image/upload/v1782399614/2_g1dn0l.png",
+      "https://res.cloudinary.com/dppvlsjq1/image/upload/v1782399616/3_lfxko7.png",
+    ],
+    techstack: [
+      IconUrls.reactjs,
+      IconUrls.typescript,
+      IconUrls.tailwindcss,
+      IconUrls.redux,
+      IconUrls.go,
+      IconUrls.postgresql,
+      IconUrls.redis,
+      IconUrls.docker,
+    ],
+    projectUrl: "https://YOUR_QUEUECAST_URL",
+    projectCodeUrl: [
+      {
+        title: "Repository",
+        url: "https://github.com/Yashwant937363/QueueCast",
       },
     ],
   },
@@ -234,7 +296,7 @@ const ProjectsSection: React.FC = () => {
                   {project.techstack.map((icon, iconIndex) => (
                     <Tooltip key={iconIndex}>
                       <TooltipTrigger asChild>
-                        <div className="border-muted border-1 rounded-full p-1 hover:bg-accent hover:ring hover:ring-accent/30">
+                        <div className="border-muted border rounded-full p-1 hover:bg-accent hover:ring hover:ring-accent/30">
                           <img
                             src={icon.iconUrl}
                             style={{

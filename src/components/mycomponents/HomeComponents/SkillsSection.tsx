@@ -36,6 +36,12 @@ const programmingLanguages: SkillsType[] = [
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
     level: "beginner",
   },
+  {
+    title: "Go",
+    svgUrl:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg",
+    level: "intermediate",
+  },
 ];
 const frontendSkills: SkillsType[] = [
   {
@@ -69,6 +75,12 @@ const frontendSkills: SkillsType[] = [
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/materialui/materialui-original.svg",
     level: "beginner",
   },
+  {
+    title: "Vite",
+    svgUrl:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg",
+    level: "intermediate",
+  },
 ];
 
 const backendSkills: SkillsType[] = [
@@ -96,6 +108,28 @@ const backendSkills: SkillsType[] = [
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/socketio/socketio-original.svg",
     level: "intermediate",
   },
+  {
+    title: "Go",
+    svgUrl:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg",
+    level: "intermediate",
+  },
+  {
+    title: "Gin",
+    svgUrl: "https://raw.githubusercontent.com/gin-gonic/logo/master/color.png",
+    level: "intermediate",
+  },
+  {
+    title: "WebSocket",
+    svgUrl:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/socketio/socketio-original.svg",
+    level: "intermediate",
+  },
+  {
+    title: "JWT",
+    svgUrl: "https://jwt.io/img/pic_logo.svg",
+    level: "intermediate",
+  },
 ];
 
 const databaseSkills: SkillsType[] = [
@@ -121,6 +155,12 @@ const databaseSkills: SkillsType[] = [
     title: "Supabase",
     svgUrl:
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg",
+    level: "beginner",
+  },
+  {
+    title: "PostgreSQL",
+    svgUrl:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
     level: "beginner",
   },
   {
@@ -159,6 +199,35 @@ const tools: SkillsType[] = [
     title: "Linux Shell",
     svgUrl:
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg",
+    level: "beginner",
+  },
+  {
+    title: "Google OAuth",
+    svgUrl:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg",
+    level: "beginner",
+  },
+  {
+    title: "YouTube API",
+    svgUrl:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg",
+    level: "beginner",
+  },
+  {
+    title: "REST APIs",
+    svgUrl:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/openapi/openapi-original.svg",
+    level: "intermediate",
+  },
+  {
+    title: "Postman",
+    svgUrl: "https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg",
+    level: "intermediate",
+  },
+  {
+    title: "Nginx",
+    svgUrl:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg",
     level: "beginner",
   },
 ];
@@ -220,7 +289,7 @@ export const SkillGrid: React.FC<SkillGridProps> = ({ skills, title }) => {
                   alt={skill.title}
                   style={{
                     filter: ["GitHub", "Express JS", "Socket.io"].includes(
-                      skill.title
+                      skill.title,
                     )
                       ? "invert(1)"
                       : "none",

@@ -4,16 +4,19 @@ import SkillsSection from "@/components/mycomponents/HomeComponents/SkillsSectio
 import ProjectsSection from "@/components/mycomponents/HomeComponents/ProjectsSection";
 import ContactMeSection from "@/components/mycomponents/HomeComponents/ContectMeForm";
 import AboutSection from "@/components/mycomponents/HomeComponents/AboutSection";
+import ExperienceSection from "@/components/mycomponents/HomeComponents/ExperienceSection";
 
 const Home: React.FC = () => {
   return (
     <div id="hero" className="lg:w-4/5 mx-auto">
       <HeroSection />
-      <div id="about" className="h-[41px]"></div>
+      <div id="about" className="h-10.25"></div>
       <AboutSection />
-      <div id="skills" className="h-[20px]"></div>
+      <div id="experience" className="h-10.25" />
+      <ExperienceSection />
+      <div id="skills" className="h-5"></div>
       <SkillsSection />
-      <div id="projects" className="h-[41px]"></div>
+      <div id="projects" className="h-10.25"></div>
       <ProjectsSection />
       <div id="contact"></div>
       <ContactMeSection />
