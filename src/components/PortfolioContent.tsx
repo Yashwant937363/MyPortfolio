@@ -1,71 +1,278 @@
-import React from "react";
-import { User, RotateCcw, Zap } from "lucide-react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import PortfolioHeader from "./portfolio/PortfolioHeader";
+import AboutSection from "./portfolio/AboutSection";
+import ExperienceSection from "./portfolio/ExperienceSection";
+import EducationSection from "./portfolio/EducationSection";
+import SkillsSection from "./portfolio/SkillsSection";
+import ProjectsSection from "./portfolio/ProjectsSection";
+import {
+  Zap,
+  User,
+  Briefcase,
+  GraduationCap,
+  Code2,
+  FolderGit2,
+} from "lucide-react";
 
 interface PortfolioContentProps {
-  onClearCache: () => void;
-  onInspectDiagram: () => void;
+  currentUrl?: string;
+  onUrlChange?: (newUrl: string) => void;
+  loadedRoutes?: Set<string>;
+  onRequestRoute?: (path: string) => void;
 }
 
-export const PortfolioContent: React.FC<PortfolioContentProps> = ({
-  onClearCache,
-  onInspectDiagram
+interface UnloadedRouteCardProps {
+  route: string;
+  title: string;
+  icon: React.ReactNode;
+}
+
+const UnloadedRouteCard: React.FC<UnloadedRouteCardProps> = ({
+  route,
+  title,
+  icon,
 }) => {
   return (
-    <div className="w-full max-w-4xl p-3 sm:p-6 space-y-4 sm:space-y-6 text-left overflow-y-auto max-h-[calc(100vh-100px)]">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-800 pb-4 gap-3">
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-sky-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg sm:text-xl shadow-lg shrink-0">
-            YP
-          </div>
-          <div>
-            <h1 className="text-xl sm:text-2xl font-extrabold text-white">Yashwant Poyrekar</h1>
-            <p className="text-[11px] sm:text-xs text-sky-400 font-mono">Full Stack Developer & AI Enthusiast</p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-          <button
-            onClick={onClearCache}
-            className="px-2.5 sm:px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-[11px] sm:text-xs text-slate-300 rounded-xl border border-slate-700 flex items-center gap-1.5 transition-all cursor-pointer"
-          >
-            <RotateCcw className="w-3.5 h-3.5" /> Clear DNS Cache
-          </button>
-          <button
-            onClick={onInspectDiagram}
-            className="px-2.5 sm:px-3 py-1.5 bg-sky-600/30 hover:bg-sky-600/50 text-[11px] sm:text-xs text-sky-300 rounded-xl border border-sky-500/40 flex items-center gap-1.5 transition-all cursor-pointer"
-          >
-            <Zap className="w-3.5 h-3.5" /> Inspect Diagram
-          </button>
-        </div>
+    <div className="p-6 sm:p-8 bg-slate-900/80 border border-slate-800/90 rounded-2xl space-y-4 text-center backdrop-blur-md max-w-lg mx-auto shadow-2xl">
+      <div className="flex items-center justify-center gap-2 text-slate-300">
+        {icon}
+        <h3 className="text-base sm:text-lg font-bold text-slate-100 uppercase tracking-wider">
+          {title}
+        </h3>
       </div>
 
-      {/* Bio Section */}
-      <div className="bg-slate-900/60 rounded-2xl p-4 sm:p-5 border border-slate-800/80 space-y-2 sm:space-y-3">
-        <h2 className="text-xs sm:text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-          <User className="w-4 h-4 text-sky-400" /> About
-        </h2>
-        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-          👋 Meet Yashwant Poyrekar — A passionate developer who loves turning ideas into real, working solutions. From building clean web interfaces to exploring the world of AI, Yashwant is always experimenting, learning, and creating.
-        </p>
+      <div className="inline-flex items-center gap-2 px-3 py-1 bg-sky-500/10 border border-sky-500/30 rounded-xl text-sky-400 text-xs font-mono">
+        <span className="w-2 h-2 rounded-full bg-sky-400 animate-ping" />
+        <span>HTTP GET {route} — Requesting Microservice...</span>
       </div>
 
-      {/* Tech Stack Grid */}
-      <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
-        <div className="p-3 bg-slate-900/40 border border-slate-800/80 rounded-xl text-center">
-          <div className="text-[11px] sm:text-xs text-slate-400 font-mono">Frontend</div>
-          <div className="text-xs sm:text-sm font-bold text-sky-400 mt-1">React / TypeScript</div>
+      <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+        Auto-triggering HTTP query for <code className="text-sky-300 font-mono">{route}</code> on the architecture diagram.
+      </p>
+
+      <div className="pt-1 flex items-center justify-center gap-2 text-xs font-bold text-sky-400 font-mono">
+        <Zap className="w-4 h-4 text-amber-300 animate-bounce" />
+        <span>Fetching {route} Payload</span>
+      </div>
+    </div>
+  );
+};
+
+export const PortfolioContent: React.FC<PortfolioContentProps> = ({
+  currentUrl = "yashwantpoyrekar.dev/about",
+  onUrlChange,
+  loadedRoutes = new Set(["/about"]),
+  onRequestRoute,
+}) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const pendingRouteRef = useRef<string | null>(null);
+  const isScrollingToTargetRef = useRef<boolean>(false);
+  const [selectedProjectSlug, setSelectedProjectSlug] = useState<string | null>(
+    null
+  );
+
+  const triggerRouteRequest = useCallback(
+    (path: string) => {
+      if (onRequestRoute) {
+        onRequestRoute(path);
+      }
+    },
+    [onRequestRoute]
+  );
+
+  // Programmatic scroll to target section when currentUrl changes or returning from diagram mode
+  useEffect(() => {
+    if (!currentUrl) return;
+
+    const match = currentUrl.match(/yashwantpoyrekar\.dev(\/[a-zA-Z0-9\-_/]*)/);
+    const targetPath = match ? match[1] : currentUrl.startsWith("/") ? currentUrl : "/about";
+
+    let sectionId = "about";
+    if (targetPath.startsWith("/projects/")) {
+      const slug = targetPath.replace("/projects/", "");
+      setSelectedProjectSlug(slug);
+      sectionId = "projects";
+    } else if (targetPath.startsWith("/projects")) {
+      setSelectedProjectSlug(null);
+      sectionId = "projects";
+    } else {
+      setSelectedProjectSlug(null);
+      sectionId = targetPath.replace("/", "") || "about";
+    }
+
+    isScrollingToTargetRef.current = true;
+    const timer = setTimeout(() => {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: "auto" });
+      }
+      setTimeout(() => {
+        isScrollingToTargetRef.current = false;
+      }, 300);
+    }, 60);
+
+    return () => clearTimeout(timer);
+  }, [currentUrl]);
+
+  // IntersectionObserver: auto-trigger backend request when user scrolls into an un-fetched section
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const sections = ["about", "experience", "education", "skills", "projects"];
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Skip updating URL while programmatic scroll to target section is in progress
+        if (isScrollingToTargetRef.current) return;
+
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.id;
+            const path = `/${sectionId}`;
+            if (onUrlChange && !selectedProjectSlug) {
+              onUrlChange(`yashwantpoyrekar.dev${path}`);
+            }
+
+            // AUTO-HIT BACKEND ROUTE ON SCROLL IF NOT LOADED YET
+            if (!loadedRoutes.has(path) && pendingRouteRef.current !== path) {
+              pendingRouteRef.current = path;
+              triggerRouteRequest(path);
+            }
+          }
+        }
+      },
+      {
+        root: container,
+        threshold: 0.5,
+      }
+    );
+
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [onUrlChange, selectedProjectSlug, loadedRoutes, triggerRouteRequest]);
+
+  // Clear pending ref when loadedRoutes updates
+  useEffect(() => {
+    if (pendingRouteRef.current && loadedRoutes.has(pendingRouteRef.current)) {
+      pendingRouteRef.current = null;
+    }
+  }, [loadedRoutes]);
+
+  const handleSelectProject = (slug: string | null) => {
+    setSelectedProjectSlug(slug);
+    if (slug) {
+      const path = `/projects/${slug}`;
+      if (!loadedRoutes.has(path)) {
+        triggerRouteRequest(path);
+      }
+      if (onUrlChange) {
+        onUrlChange(`yashwantpoyrekar.dev${path}`);
+      }
+    } else {
+      if (!loadedRoutes.has("/projects")) {
+        triggerRouteRequest("/projects");
+      }
+      if (onUrlChange) {
+        onUrlChange("yashwantpoyrekar.dev/projects");
+      }
+    }
+  };
+
+  return (
+    <div className="w-full h-full flex flex-col overflow-hidden bg-slate-950 text-slate-100 relative">
+      {/* Scrollable Container with Full-Height Section Scroll Snapping */}
+      <div
+        ref={containerRef}
+        className="w-full flex-1 overflow-y-auto snap-y snap-mandatory scroll-smooth p-3 sm:p-6 max-w-4xl mx-auto space-y-4"
+      >
+        {/* Profile Header */}
+        <PortfolioHeader />
+
+        {/* Section 1: About Me */}
+        <div
+          id="about"
+          className="snap-start snap-always w-full min-h-full flex flex-col justify-center py-4 scroll-mt-6"
+        >
+          {loadedRoutes.has("/about") ? (
+            <AboutSection />
+          ) : (
+            <UnloadedRouteCard
+              route="/about"
+              title="About Me"
+              icon={<User className="w-6 h-6 text-sky-400" />}
+            />
+          )}
         </div>
-        <div className="p-3 bg-slate-900/40 border border-slate-800/80 rounded-xl text-center">
-          <div className="text-[11px] sm:text-xs text-slate-400 font-mono">Backend</div>
-          <div className="text-xs sm:text-sm font-bold text-purple-400 mt-1">Node / Express / Go</div>
+
+        {/* Section 2: Experience */}
+        <div
+          id="experience"
+          className="snap-start snap-always w-full min-h-full flex flex-col justify-center py-4 scroll-mt-6"
+        >
+          {loadedRoutes.has("/experience") ? (
+            <ExperienceSection />
+          ) : (
+            <UnloadedRouteCard
+              route="/experience"
+              title="Work Experience"
+              icon={<Briefcase className="w-6 h-6 text-sky-400" />}
+            />
+          )}
         </div>
-        <div className="p-3 bg-slate-900/40 border border-slate-800/80 rounded-xl text-center">
-          <div className="text-[11px] sm:text-xs text-slate-400 font-mono">Databases</div>
-          <div className="text-xs sm:text-sm font-bold text-emerald-400 mt-1">MongoDB / Redis</div>
+
+        {/* Section 3: Education */}
+        <div
+          id="education"
+          className="snap-start snap-always w-full min-h-full flex flex-col justify-center py-4 scroll-mt-6"
+        >
+          {loadedRoutes.has("/education") ? (
+            <EducationSection />
+          ) : (
+            <UnloadedRouteCard
+              route="/education"
+              title="Education"
+              icon={<GraduationCap className="w-6 h-6 text-sky-400" />}
+            />
+          )}
         </div>
-        <div className="p-3 bg-slate-900/40 border border-slate-800/80 rounded-xl text-center">
-          <div className="text-[11px] sm:text-xs text-slate-400 font-mono">DNS & IP</div>
-          <div className="text-xs sm:text-sm font-bold text-amber-400 font-mono mt-1">93.184.216.34</div>
+
+        {/* Section 4: Skills */}
+        <div
+          id="skills"
+          className="snap-start snap-always w-full min-h-full flex flex-col justify-center py-4 scroll-mt-6"
+        >
+          {loadedRoutes.has("/skills") ? (
+            <SkillsSection />
+          ) : (
+            <UnloadedRouteCard
+              route="/skills"
+              title="Technical Skills"
+              icon={<Code2 className="w-6 h-6 text-sky-400" />}
+            />
+          )}
+        </div>
+
+        {/* Section 5: Projects */}
+        <div
+          id="projects"
+          className="snap-start snap-always w-full min-h-full flex flex-col justify-center py-4 scroll-mt-6"
+        >
+          {loadedRoutes.has("/projects") ? (
+            <ProjectsSection
+              selectedProjectSlug={selectedProjectSlug}
+              onSelectProject={handleSelectProject}
+            />
+          ) : (
+            <UnloadedRouteCard
+              route="/projects"
+              title="Featured Projects"
+              icon={<FolderGit2 className="w-6 h-6 text-sky-400" />}
+            />
+          )}
         </div>
       </div>
     </div>
