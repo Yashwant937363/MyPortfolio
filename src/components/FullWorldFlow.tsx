@@ -54,7 +54,6 @@ export const FullWorldFlow: React.FC = () => {
     currentStepText,
     loadedRoutes,
     handleUrlNavigate,
-    traversePageRequest,
     clearLocalCache,
     handleInspectDiagram,
   } = useDnsSimulation({
@@ -81,14 +80,10 @@ export const FullWorldFlow: React.FC = () => {
     }
     setCurrentBrowserUrl(cleanUrl);
 
-    const match = cleanUrl.match(/yashwantpoyrekar\.dev(\/[a-zA-Z0-9\-_/]*)/);
-    const targetPath = match ? match[1] : "/about";
-
     if (!isResolved) {
       handleUrlNavigate(cleanUrl);
-    } else {
-      traversePageRequest(targetPath);
     }
+    // When resolved, setting currentBrowserUrl smoothly scrolls to that section without server re-fetch
   };
 
   return (
@@ -108,7 +103,6 @@ export const FullWorldFlow: React.FC = () => {
               currentUrl={currentBrowserUrl}
               onUrlChange={setCurrentBrowserUrl}
               loadedRoutes={loadedRoutes}
-              onRequestRoute={traversePageRequest}
             />
           ) : (
             /* DEFAULT BROWSER INTRO */

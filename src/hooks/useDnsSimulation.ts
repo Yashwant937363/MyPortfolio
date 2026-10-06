@@ -17,6 +17,21 @@ interface UseDnsSimulationProps {
   handleResetView: () => void;
 }
 
+export const ALL_PORTFOLIO_ROUTES = new Set([
+  "/about",
+  "/experience",
+  "/education",
+  "/skills",
+  "/projects",
+  "/projects/queuecast",
+  "/projects/tictactoe",
+  "/projects/tic-tac-toe",
+  "/projects/gossip",
+  "/projects/gossip-app",
+  "/projects/todo",
+  "/projects/todo-list",
+]);
+
 export const useDnsSimulation = ({
   cameraPos,
   updateCameraView,
@@ -175,87 +190,81 @@ export const useDnsSimulation = ({
     });
   };
 
-  // Traverses full diagram when navigating to specific page routes (e.g. /about, /experience, /education, /skills, /projects)
-  const traversePageRequest = (path: string, onComplete?: () => void) => {
+  // Single comprehensive flow: hits the server only once to get everything in a single flow
+  const fetchEverythingFromServer = (onComplete?: () => void) => {
     setInDiagramMode(true);
-
-    let cleanPath = path;
-    if (cleanPath.includes("yashwantpoyrekar.dev")) {
-      const match = cleanPath.match(/yashwantpoyrekar\.dev(\/[a-zA-Z0-9\-_/]*)/);
-      cleanPath = match ? match[1] : "/about";
-    }
-    if (!cleanPath || cleanPath === "/") cleanPath = "/about";
-
-    let targetNodeId = "about_server";
-    let targetRecordKey = "NAME";
-    let serverTitle = "/about Server";
-
-    if (cleanPath.startsWith("/experience")) {
-      targetNodeId = "experience_server";
-      targetRecordKey = "ROLE";
-      serverTitle = "/experience Server";
-    } else if (cleanPath.startsWith("/education")) {
-      targetNodeId = "education_server";
-      targetRecordKey = "DEGREE";
-      serverTitle = "/education Server";
-    } else if (cleanPath.startsWith("/skills")) {
-      targetNodeId = "skills_server";
-      targetRecordKey = "LANGUAGES";
-      serverTitle = "/skills Server";
-    } else if (cleanPath.startsWith("/projects")) {
-      targetNodeId = "projects_server";
-      serverTitle = "/projects Server";
-      if (cleanPath.includes("queuecast")) targetRecordKey = "queuecast";
-      else if (cleanPath.includes("tictactoe") || cleanPath.includes("tic-tac-toe")) targetRecordKey = "tic-tac-toe";
-      else if (cleanPath.includes("gossip")) targetRecordKey = "gossip-app";
-      else targetRecordKey = "todo-list";
-    }
-
-    const stepDuration = 1.0; // Smooth 1-second leg duration for big diagram traversal
+    const stepDuration = 1.0;
 
     // Focus camera on Browser to start
     zoomToNode("browser", 1.5, 0.6, setActiveNodeId);
 
     // Leg 1: Browser -> API Gateway
-    setCurrentStepText(`1. Browser sending HTTP request to API Gateway: GET ${cleanPath}`);
-    travelPacket("browser", "api_gateway", `GET ${cleanPath} HTTP/1.1`, stepDuration, () => {
-      // Leg 2: API Gateway -> Target Microservice Server
-      setCurrentStepText(`2. API Gateway routing request to ${serverTitle}`);
-      travelPacket("api_gateway", targetNodeId, `Proxy ${cleanPath}`, stepDuration, () => {
-        // Step 3: Server processing & record lookup
-        setCurrentStepText(`3. ${serverTitle} fetching record (${targetRecordKey})`);
-        
-        simulateNodeProcess(targetNodeId, targetRecordKey, 1.8, () => {
-          // Leg 4: Target Microservice Server -> API Gateway
-          setCurrentStepText(`4. ${serverTitle} returning 200 OK payload to API Gateway`);
-          travelPacket(targetNodeId, "api_gateway", `200 OK (${cleanPath} Data)`, stepDuration, () => {
-            // Leg 5: API Gateway -> Browser
-            setCurrentStepText(`5. API Gateway delivering 200 OK HTTP response to Browser`);
-            travelPacket("api_gateway", "browser", "200 OK (Data)", stepDuration, () => {
-              setCurrentStepText(`HTTP 200 OK Received! Rendering ${cleanPath}`);
-              setActiveProcessNode(null);
-              setHighlightRecordKey(null);
+    setCurrentStepText(
+      "1. Browser sending HTTP request to API Gateway: GET / (Fetch Complete Portfolio Bundle)"
+    );
+    travelPacket(
+      "browser",
+      "api_gateway",
+      "GET / HTTP/1.1 (All Sections)",
+      stepDuration,
+      () => {
+        // Step 2: API Gateway processes routes and verifies services
+        setCurrentStepText(
+          "2. API Gateway resolving all microservices (/about, /experience, /education, /skills, /projects)"
+        );
+        simulateNodeProcess("api_gateway", "STATUS", 1.0, () => {
+          // Leg 3: API Gateway queries microservice backend cluster to aggregate all data
+          setCurrentStepText(
+            "3. API Gateway querying microservices cluster for all section records"
+          );
+          travelPacket(
+            "api_gateway",
+            "about_server",
+            "Fetch Microservices Records",
+            0.7,
+            () => {
+              // Return aggregated microservices data to API Gateway
+              travelPacket(
+                "about_server",
+                "api_gateway",
+                "200 OK (All Section Data Aggregated)",
+                0.7,
+                () => {
+                  // Leg 4: API Gateway delivers complete portfolio payload back to Browser
+                  setCurrentStepText(
+                    "4. API Gateway delivering 200 OK response with Complete Portfolio Bundle to Browser"
+                  );
+                  travelPacket(
+                    "api_gateway",
+                    "browser",
+                    "200 OK (Full Portfolio Delivered)",
+                    stepDuration,
+                    () => {
+                      setCurrentStepText(
+                        "HTTP 200 OK Received! Rendering Full Portfolio Flow"
+                      );
+                      setActiveProcessNode(null);
+                      setHighlightRecordKey(null);
+                      setLoadedRoutes(ALL_PORTFOLIO_ROUTES);
+                      setIsResolved(true);
 
-              setLoadedRoutes((prev) => {
-                const next = new Set(prev);
-                next.add(cleanPath);
-                if (cleanPath.startsWith("/projects")) next.add("/projects");
-                if (cleanPath.startsWith("/experience")) next.add("/experience");
-                if (cleanPath.startsWith("/education")) next.add("/education");
-                if (cleanPath.startsWith("/skills")) next.add("/skills");
-                if (cleanPath.startsWith("/about")) next.add("/about");
-                return next;
-              });
-
-              setTimeout(() => {
-                setInDiagramMode(false);
-                if (onComplete) onComplete();
-              }, 500);
-            });
-          });
+                      setTimeout(() => {
+                        setInDiagramMode(false);
+                        if (onComplete) onComplete();
+                      }, 500);
+                    }
+                  );
+                }
+              );
+            }
+          );
         });
-      });
-    });
+      }
+    );
+  };
+
+  const traversePageRequest = (_path?: string, onComplete?: () => void) => {
+    fetchEverythingFromServer(onComplete);
   };
 
   // Main flow when user submits URL in browser
